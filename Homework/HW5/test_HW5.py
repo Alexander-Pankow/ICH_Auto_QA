@@ -20,26 +20,36 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.action_chains import ActionChains
 
-@pytest.fixture
-def driver():
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    driver.maximize_window()
-    driver.get("https://bonigarcia.dev/selenium-webdriver-java/iframes.html")
-    yield driver
-    driver.quit()
+# @pytest.fixture
+# def driver():
+#     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+#     driver.maximize_window()
+#     driver.get("https://bonigarcia.dev/selenium-webdriver-java/iframes.html")
+#     yield driver
+#     driver.quit()
+#
+# def test_iframe_lead_text(driver):
+#     wait = WebDriverWait(driver, 10)
+#     # Ждем появления хотя бы одного iframe и переключаемся в него
+#     iframe = wait.until(EC.presence_of_element_located((By.TAG_NAME, "iframe")))
+#     driver.switch_to.frame(iframe)
+#     # Находим все элементы с классом lead внутри iframe
+#     lead_elements = driver.find_elements(By.CLASS_NAME, "lead")
+#     # Проверяем, что нужный текст есть хотя бы в одном элементе
+#     assert any("semper posuere integer et senectus justo curabitur." in el.text for el in lead_elements), \
+#         "Текст 'semper posuere integer et senectus justo curabitur.' не найден ни в одном элементе lead"
+#     # Возвращаемся на главную страницу
+#     driver.switch_to.default_content()
 
-def test_iframe_lead_text(driver):
-    wait = WebDriverWait(driver, 10)
-    # Ждем появления хотя бы одного iframe и переключаемся в него
-    iframe = wait.until(EC.presence_of_element_located((By.TAG_NAME, "iframe")))
-    driver.switch_to.frame(iframe)
-    # Находим все элементы с классом lead внутри iframe
-    lead_elements = driver.find_elements(By.CLASS_NAME, "lead")
-    # Проверяем, что нужный текст есть хотя бы в одном элементе
-    assert any("semper posuere integer et senectus justo curabitur." in el.text for el in lead_elements), \
-        "Текст 'semper posuere integer et senectus justo curabitur.' не найден ни в одном элементе lead"
-    # Возвращаемся на главную страницу
-    driver.switch_to.default_content()
+# Ваш вариант
+# def test_switch_to_frame(driver):
+#     wait = WebDriverWait(driver, 5)
+#     iframe = driver.find_element(By.TAG_NAME, "iframe")
+#     wait.until(EC.frame_to_be_available_and_switch_to_it(iframe))
+#     paragraph_1 = driver.find_element(By.XPATH,"(//body//p[@class = 'lead'])[2]")
+#     assert "semper posuere integer et senectus justo curabitur." in paragraph_1.text
+
+
 
 
 """
@@ -68,8 +78,9 @@ def driver():
 
 
 def test_drag_and_drop(driver):
-    time.sleep(5) # это для меня у меня банер с настройками появляется
-
+    wait = WebDriverWait(driver, 10)
+    accept_button = wait.until(EC.visibility_of_element_located((By.XPATH, "(//p[@class='fc-button-label'])[1]")))
+    accept_button.click()
     wait = WebDriverWait(driver, 20)
     # Ждем iframe и переключаемся в него
     iframe = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "iframe.demo-frame")))
@@ -86,3 +97,7 @@ def test_drag_and_drop(driver):
     gallery_images = driver.find_elements(By.CSS_SELECTOR, "#gallery li")
     assert len(trash_images) == 1
     assert len(gallery_images) == 3
+
+
+
+
