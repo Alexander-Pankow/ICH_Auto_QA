@@ -83,8 +83,8 @@ def test_get_employee_info():
 def test_update_employee():
     """Проверка: изменение данных сотрудника по ID"""
 
-    employee_id = 1        # должен существовать в базе  (не знаю что сюда ставить )
-    client_token = "test"  # нужно подставить реальный токен, если API требует авторизации
+    employee_id = 1
+    client_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoYXJyeXBvdHRlciIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc1ODc1Mzk5NH0.32zf8d-Mv9kJZbo6ofOfRCUotjEiVrTo-PiJ2xsbjhs"
 
     update_data = {
         "last_name": "UpdatedLastName",
